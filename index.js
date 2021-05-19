@@ -18,23 +18,12 @@ const url = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`
 server.use(express.json())
 
 
-server.get('/koders', async (req,res)=>{
-    const gender = req.params
-
-    const allKoders = await model.find({})
-
-    res.json({
-        message : "all koders",
-        success :  true,
-        data : {
-            koders : allKoders
-        }
-    })
-})
 //get koders by gender
-server.get('/koders/:gender', async (req,res)=>{
-    const g = req.params
+server.get('/koders', async (req,res)=>{
+    const g = req.query
 
+
+    console.log(g)    
     const allKoders = await model.find(g)
     res.json({
         message : "all koders",
@@ -45,7 +34,7 @@ server.get('/koders/:gender', async (req,res)=>{
     })
 })
 
-server.post('/koders', async (req,res)=>{
+server.post('/koders', (req,res)=>{
 
     const name = req.body.name
     const lastName = req.body.lastName
@@ -54,7 +43,7 @@ server.post('/koders', async (req,res)=>{
     
     const newKoder = {name,lastName,age,gender}
 
-    await model.create(newKoder)
+        model.create(newKoder)
 
     res.json({
         message : 'koder created successfully',
